@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Script de comprobación de entrega de ejercicio
+Script de comprobaciÃ³n de entrega de ejercicio
 
 Para ejecutarlo, desde la shell:
  $ python check.py login_github
@@ -14,6 +14,8 @@ import random
 import sys
 
 ejercicio = 'X-Serv-16.3-contentPutApp'
+
+student_files = []
 
 repo_files = [
     'contentapp.py'
@@ -28,7 +30,7 @@ repo_files = [
 files = student_files + repo_files
 
 if len(sys.argv) != 2:
-    print
+    print()
     sys.exit("Usage: $ python check.py login_github")
 
 repo_git = "http://github.com/" + sys.argv[1] + "/" + ejercicio
@@ -38,36 +40,36 @@ aleatorio = str(int(random.random() * 1000000))
 
 error = 0
 
-print
-print "Clonando el repositorio " + repo_git + "\n"
+print()
+print("Clonando el repositorio " + repo_git + "\n")
 os.system('git clone ' + repo_git + ' /tmp/' + aleatorio + ' > /dev/null 2>&1')
 try:
     github_file_list = os.listdir('/tmp/' + aleatorio)
 except OSError:
     error = 1
-    print "Error: No se ha podido acceder al repositorio " + repo_git + "."
-    print
+    print("Error: No se ha podido acceder al repositorio " + repo_git + ".")
+    print()
     sys.exit()
 
 if len(github_file_list) != len(files):
     error = 1
-    print "Error: número de ficheros en el repositorio incorrecto"
+    print("Error: nÃºmero de ficheros en el repositorio incorrecto")
 
 for filename in files:
     if filename not in github_file_list:
         error = 1
-        print "\tError: " + filename + " no encontrado en el repositorio."
+        print("\tError: " + filename + " no encontrado en el repositorio.")
 
 if not error:
-    print "Parece que la entrega se ha realizado bien."
+    print("Parece que la entrega se ha realizado bien.")
 
-print
-print "La salida de pep8 es: (si todo va bien, no ha de mostrar nada)"
-print
+print()
+print("La salida de pep8 es: (si todo va bien, no ha de mostrar nada)")
+print()
 for filename in student_files:
     if filename in github_file_list:
         os.system('pep8 --repeat --show-source --statistics /tmp/'
                   + aleatorio + '/' + filename)
     else:
-        print "Fichero " + filename + " no encontrado en el repositorio."
-print
+        print("Fichero " + filename + " no encontrado en el repositorio.")
+print()
